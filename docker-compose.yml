@@ -1,0 +1,25 @@
+version: '3.9'
+
+services:
+  db: # Service name
+    image: postgres # Use the official postgres image
+    restart: always # Restart the container if it crashes
+    environment: # Set environment variables
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: imagelite # Database name
+    ports: # Expose the port
+        - "5432:5432" # Host:Container
+    volumes: # Mount the volume
+      - ./data:/var/lib/postgresql/data # Host:Container
+
+  pgadmin: # Service name
+    image: dpage/pgadmin4 # Use the official pgadmin4 image
+    restart: always # Restart the container if it crashes
+    environment: # Set environment variables
+      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+    ports: # Expose the port
+        - "15432:80" # Host:Container
+    depends_on:
+      - db # Wait for the db service to be ready
